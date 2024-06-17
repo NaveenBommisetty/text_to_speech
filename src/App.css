@@ -4,11 +4,8 @@
   font-family: Inter, sans-serif;
   text-align: center;
 }
-
-textarea {
-  width: 80%;
-  margin-top: 20px;
-  font-family: Inter;
+.text-left {
+  text-align: left;
 }
 
 select {
