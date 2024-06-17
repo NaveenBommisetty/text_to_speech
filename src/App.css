@@ -7,7 +7,7 @@
 .text-left {
   text-align: left;
 }
-
+select.form-control { -webkit-appearance: menulist; }
 select {
   padding: 10px;
   margin-top: 20px;
