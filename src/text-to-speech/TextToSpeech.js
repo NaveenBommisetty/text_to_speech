@@ -63,40 +63,35 @@ const TextToSpeech = () => {
     };
 
     return (
-        <div className="container mt-5">
-            
-            <div className="row">
-                <div className="col-md-6 mb-3">
-                    <textarea
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                        rows="9"
-                        className="form-control"
-                        placeholder="Enter text here..."
-                    />
-                </div>
-                <div className="col-md-6 d-flex flex-column align-items-left">
-                <h1 className="text-left mb-4">Text to Speech Converter</h1>
-                    <select
-                        value={selectedVoice}
-                        onChange={(e) => setSelectedVoice(e.target.value)}
-                        className="form-control mb-3"
-                    >
-                        <option value="" disabled>Select a voice</option>
-                        {voices.map((voice, index) => (
-                            <option key={index} value={voice.name}>
-                                {voice.name} ({voice.lang})
-                            </option>
-                        ))}
-                    </select>
-                    <button onClick={handleSpeak} className="btn btn-primary mb-3">
-                        Speak
-                    </button>
-                    {audioUrl && (
-                        <a href={audioUrl} download="speech.mp3" className="btn btn-secondary">
-                            Download Audio
-                        </a>
-                    )}
+        <div className="container centered-card-container mt-5">
+            <div className="card centered-card" style={{ backgroundImage: 'url("path_to_your_image.jpg")', backgroundSize: 'cover' }}>
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col-md-6 mb-3">
+                            <textarea value={text} onChange={(e) => setText(e.target.value)} rows="10" className="form-control" placeholder="Enter text here..." />
+                        </div>
+                        <div className="col-md-6 d-flex flex-column align-items-left">
+                            <h1 className="text-left mb-4">Text to Speech Converter</h1>
+                            <select
+                                value={selectedVoice}
+                                onChange={(e) => setSelectedVoice(e.target.value)}
+                                className="form-control mb-3"
+                            >
+                                <option value="" disabled>Select a voice</option>
+                                {voices.map((voice, index) => (
+                                    <option key={index} value={voice.name}>
+                                        {voice.name} ({voice.lang})
+                                    </option>
+                                ))}
+                            </select>
+                            <button onClick={handleSpeak} className="btn btn-primary mb-3">
+                                Speak
+                            </button>
+                            <a href={audioUrl} download="speech.wav" className="btn btn-secondary" disabled={!audioUrl}>
+                                Download Audio
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
