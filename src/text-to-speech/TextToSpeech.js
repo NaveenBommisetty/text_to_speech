@@ -28,42 +28,33 @@ const TextToSpeech = () => {
       try {
         const response = await axios.post('http://127.0.0.1:5000/api/text-to-speech', { text, lang: selectedLanguage }, { responseType: 'blob' });
         const filePrefix = text.slice(0, 2).toLowerCase();
-        const newFileName = `${filePrefix}_output.mp3`;
+        const newFileName = `audio-clips/${filePrefix}_output.mp3`;
         const url = window.URL.createObjectURL(new Blob([response.data]));
         setAudioUrl(url);
         setFileName(newFileName);
-        setIsPlaying(true); // Automatically play when the audio is ready
+        audioRef.current.src = url;
+        audioRef.current.play().catch(error => {
+          console.error('Error playing audio:', error);
+        });
+        setIsPlaying(true);
       } catch (error) {
         console.error('Error converting text to speech', error);
       }
     }
   };
 
-  useEffect(() => {
-    if (audioUrl && audioRef.current) {
-      audioRef.current.src = audioUrl;
-      audioRef.current.play().catch(error => {
-        console.error('Error playing audio:', error);
-      });
-    }
-  }, [audioUrl]);
-
-  const handlePlay = () => {
-    handleSpeak();
+  const handleTogglePlayPause = () => {
     if (audioRef.current) {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch(error => {
-        console.error('Error playing audio:', error);
-      });
-    }
-  };
-
-  const handlePause = () => {
-    handleSpeak();
-    if (audioRef.current) {
-      audioRef.current.pause();
-      setIsPlaying(false);
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play().then(() => {
+          setIsPlaying(true);
+        }).catch(error => {
+          console.error('Error playing audio:', error);
+        });
+      }
     }
   };
 
@@ -81,15 +72,15 @@ const TextToSpeech = () => {
                 placeholder="Enter text here..."
               />
               <div className="mt-2">
-                {isPlaying ? (
-                  <svg onClick={handlePause} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-pause" style={{ cursor: 'pointer' }}>
-                    <rect x="6" y="4" width="4" height="16"></rect>
-                    <rect x="14" y="4" width="4" height="16"></rect>
-                  </svg>
-                ) : (
-                  <svg onClick={handlePlay} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-play" style={{ cursor: 'pointer' }}>
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                  </svg>
+                {audioUrl && (
+                  <button onClick={handleTogglePlayPause} className="btn btn-primary">
+                    {isPlaying ? (
+                      <>
+                        <span class="material-symbols-outlined">pause</span> Pause </> ) : (
+                      <>
+                        <span class="material-symbols-outlined">play_arrow</span>Play</>
+                    )}
+                  </button>
                 )}
               </div>
               <audio ref={audioRef} onEnded={() => setIsPlaying(false)} controls style={{ display: 'none' }}></audio>
@@ -101,7 +92,7 @@ const TextToSpeech = () => {
                 selectedLanguage={selectedLanguage}
                 setSelectedLanguage={setSelectedLanguage}
               />
-              <button onClick={handleSpeak} className="btn btn-primary mb-3">
+              <button onClick={handleSpeak} className="btn btn-primary mb-3 mt-3">
                 Convert to Audio
               </button>
               {audioUrl && (
