@@ -38,3 +38,12 @@ button {
 button:hover {
   background-color: #45a049;
 }
+.Toastify__toast-body > div:last-child {
+  word-break: break-word;
+  flex: 1 1;
+  color: black;
+  font-family: 'Inter';
+  font-weight: 500;
+  text-align: left;
+  margin-left: 5px;
+}

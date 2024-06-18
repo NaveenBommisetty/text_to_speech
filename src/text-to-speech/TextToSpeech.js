@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import LanguageDropdown from '../Languages/LanguageDropdown';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TextToSpeech = () => {
   const [text, setText] = useState('');
@@ -9,6 +11,7 @@ const TextToSpeech = () => {
   const [fileName, setFileName] = useState('');
   const [languages, setLanguages] = useState({});
   const [isPlaying, setIsPlaying] = useState(false);
+  const [inputError, setInputError] = useState(false); // State to track empty input
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -17,29 +20,40 @@ const TextToSpeech = () => {
         const response = await axios.get('http://127.0.0.1:5000/api/languages');
         setLanguages(response.data);
       } catch (error) {
-        console.error('Error fetching languages', error);
+        toast.error('Error fetching languages');
       }
     };
     fetchLanguages();
   }, []);
 
   const handleSpeak = async () => {
-    if (text) {
-      try {
-        const response = await axios.post('http://127.0.0.1:5000/api/text-to-speech', { text, lang: selectedLanguage }, { responseType: 'blob' });
-        const filePrefix = text.slice(0, 2).toLowerCase();
-        const newFileName = `audio-clips/${filePrefix}_output.mp3`;
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        setAudioUrl(url);
-        setFileName(newFileName);
-        audioRef.current.src = url;
-        audioRef.current.play().catch(error => {
-          console.error('Error playing audio:', error);
-        });
-        setIsPlaying(true);
-      } catch (error) {
-        console.error('Error converting text to speech', error);
-      }
+    if (text.trim() === '') {
+      setInputError(true);
+      toast.error('Please enter some text to convert.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/api/text-to-speech', { text, lang: selectedLanguage }, { responseType: 'blob' });
+
+      const firstTwoWords = text.trim().split(' ').slice(0, 2).join('_').toLowerCase();
+      const newFileName = `${firstTwoWords}_audio.mp3`;
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      setAudioUrl(url);
+      setFileName(newFileName);
+      audioRef.current.src = url;
+      audioRef.current.play().catch(error => {
+        toast.error('Error playing audio');
+      });
+      setIsPlaying(true);
+      setInputError(false);
+
+      // Display success toast for download
+      toast.success('Audio file is ready for download!');
+
+    } catch (error) {
+      toast.error('Error converting text to speech');
     }
   };
 
@@ -52,33 +66,53 @@ const TextToSpeech = () => {
         audioRef.current.play().then(() => {
           setIsPlaying(true);
         }).catch(error => {
-          console.error('Error playing audio:', error);
+          toast.error('Error playing audio');
         });
       }
     }
   };
 
+  const handleDownload = () => {
+    // You can implement additional logic here for download handling if needed
+    // For now, just reset the audio URL and file name after download
+    setAudioUrl('');
+    setFileName('');
+    toast.success('Audio file downloaded successfully!');
+  };
+
   return (
     <div className="container centered-card-container mt-5">
+      <ToastContainer /> 
       <div className="card centered-card" style={{ backgroundImage: 'url("path_to_your_image.jpg")', backgroundSize: 'cover' }}>
         <div className="card-body">
           <div className="row">
             <div className="col-md-6 mb-3">
               <textarea
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={(e) => {
+                  setText(e.target.value);
+                  setInputError(false); // Clear input error when user starts typing
+                }}
                 rows="10"
-                className="form-control"
+                className={`form-control ${inputError ? 'is-invalid' : ''}`}
                 placeholder="Enter text here..."
               />
+              {inputError && (
+                <div className="invalid-feedback">
+                  Please enter some text to convert.
+                </div>
+              )}
               <div className="mt-2">
                 {audioUrl && (
                   <button onClick={handleTogglePlayPause} className="btn btn-primary">
                     {isPlaying ? (
                       <>
-                        <span class="material-symbols-outlined">pause</span> Pause </> ) : (
+                        <span className="material-symbols-outlined">pause</span> Pause 
+                      </>
+                    ) : (
                       <>
-                        <span class="material-symbols-outlined">play_arrow</span>Play</>
+                        <span className="material-symbols-outlined">play_arrow</span> Play
+                      </>
                     )}
                   </button>
                 )}
@@ -96,7 +130,7 @@ const TextToSpeech = () => {
                 Convert to Audio
               </button>
               {audioUrl && (
-                <a href={audioUrl} download={fileName} className="btn btn-secondary">
+                <a href={audioUrl} download={fileName} onClick={handleDownload} className="btn btn-dark">
                   Download Audio
                 </a>
               )}
