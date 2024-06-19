@@ -73,8 +73,6 @@ const TextToSpeech = () => {
   };
 
   const handleDownload = () => {
-    // You can implement additional logic here for download handling if needed
-    // For now, just reset the audio URL and file name after download
     setAudioUrl('');
     setFileName('');
     toast.success('Audio file downloaded successfully!');
@@ -83,7 +81,7 @@ const TextToSpeech = () => {
   return (
     <div className="container centered-card-container mt-5">
       <ToastContainer /> 
-      <div className="card centered-card" style={{ backgroundImage: 'url("path_to_your_image.jpg")', backgroundSize: 'cover' }}>
+      <div className="card" style={{ backgroundImage: 'url("path_to_your_image.jpg")', backgroundSize: 'cover' }}>
         <div className="card-body">
           <div className="row">
             <div className="col-md-6 mb-3">
