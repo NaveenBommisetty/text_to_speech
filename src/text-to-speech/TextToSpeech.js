@@ -80,6 +80,11 @@ const TextToSpeech = () => {
 
   return (
     <div className="container centered-card-container mt-5">
+      <div className="p-3 mt-2 mb-2">
+        <div className="card-body">
+          <h1 className='h1-tag'>Secure <span className='green-title-color'> Text to Speech Generator</span></h1>
+        </div>
+      </div>
       <ToastContainer /> 
       <div className="card" style={{ backgroundImage: 'url("path_to_your_image.jpg")', backgroundSize: 'cover' }}>
         <div className="card-body">

@@ -10,6 +10,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.h1-tag{
+  font-size: 2rem !important;
+  font-weight: 600 !important;
+}
+.green-title-color{
+  color:  #98c222;
+}
 .card{
   position: relative;
     display: flex;
