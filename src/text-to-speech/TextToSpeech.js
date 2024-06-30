@@ -84,7 +84,7 @@ const TextToSpeech = () => {
       <div className="card" style={{ backgroundImage: 'url("path_to_your_image.jpg")', backgroundSize: 'cover' }}>
         <div className="card-body">
           <div className="row">
-            <div className="col-md-6 mb-3">
+            <div className="col-md-7 mb-3">
               <textarea
                 value={text}
                 onChange={(e) => {
@@ -117,7 +117,7 @@ const TextToSpeech = () => {
               </div>
               <audio ref={audioRef} onEnded={() => setIsPlaying(false)} controls style={{ display: 'none' }}></audio>
             </div>
-            <div className="col-md-6 d-flex flex-column align-items-left">
+            <div className="col-md-5 d-flex flex-column align-items-left">
               <h1 className="text-left mb-4">Text to Speech Converter</h1>
               <LanguageDropdown
                 languages={languages}

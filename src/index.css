@@ -21,3 +21,8 @@ code {
     border: 1px solid rgba(0, 0, 0, 0) !important;
     border-radius: 0.4rem !important;
 }
+.btn-primary{
+background: #336699 !important;
+border: 1px solid #336699 !important;
+}
+  
