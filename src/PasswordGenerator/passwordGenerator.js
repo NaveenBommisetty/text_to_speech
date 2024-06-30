@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Slider } from '@mui/material';
-import '../PasswordGenerator/passwordGenerator.css'; // Adjust the path to your CSS file
+import '../PasswordGenerator/PasswordGenerator.css'; // Adjust the path to your CSS file
 
 const PasswordGenerator = () => {
     const [length, setLength] = useState(8);

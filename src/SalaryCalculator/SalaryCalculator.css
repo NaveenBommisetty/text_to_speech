@@ -1,0 +1,105 @@
+.salary-calculator {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px;
+}
+.btn-secondary {
+    color: #333 !important;
+    background-color: #ebeef5 !important;
+    border-color: #ebeef5 !important;
+}
+.SalaryCalculator_title{
+    text-align: left;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    margin-bottom: 24px;
+    flex: 0 auto;
+    color: #202223;   
+}
+.input-section, .output-section {
+    width: 49%;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.clear-button, .calculate-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 48%;
+}
+
+.clear-button:hover, .calculate-button:hover {
+    background-color: #0056b3;
+}
+.left-text{
+    text-align: left !important;
+}
+.earnings-box {
+    margin-top: 20px;
+}
+
+.earnings-item {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.earnings-value {
+    color: #28a745;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.output-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.download-button {
+    position: relative;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.download-select {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.share-link-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.download-button:hover, .share-link-button:hover {
+    background-color: #0056b3;
+}
