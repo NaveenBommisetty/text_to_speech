@@ -11,10 +11,13 @@ function App() {
     return (
         <div className="App">
             <Header />
+            <div className='container mt-3'>
+                <ImageCompression />
+            </div>
             {/* <TextToSpeech />
             <PasswordGenerator />
             <SalaryCalculator /> */}
-            <ImageCompression />
+            
             <Footer />
         </div>
     );
