@@ -95,7 +95,7 @@ const PasswordGenerator = () => {
         <div className="container">
             <div className="p-3 mt-2 mb-2">
                 <div className="card-body">
-                    <h1 className='h1-tag'>Secure <span className='green-title-color'> Password Generator</span></h1>
+                    <h1 className='h1-tag'>Smart <span className='green-title-color'> Compressor</span></h1>
                 </div>
             </div>
             <ToastContainer />
