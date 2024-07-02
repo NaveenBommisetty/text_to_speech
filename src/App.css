@@ -1,5 +1,7 @@
 /* src/App.css */
-
+.card {
+  padding: 15px !important;
+}
 .App {
   font-family: Inter, sans-serif;
   text-align: center;
