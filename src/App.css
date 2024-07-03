@@ -2,6 +2,9 @@
 .card {
   padding: 15px !important;
 }
+.fs18{
+  font-size: 18px;
+}
 .App {
   font-family: Inter, sans-serif;
   text-align: center;

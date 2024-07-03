@@ -50,41 +50,65 @@ function App() {
     );
 }
 
-// Home component rendering links to other routes
+// Home component rendering links to other routes with improved design
 const Home = () => {
     return (
         <div className="container">
             <div className='row'>
-                <div className='col-md-6 mb-5'>
-                    <div className="card">
-                        <div className="card-body">
-                            <h3 className="">Image Compression</h3>
-                            <p className="">Compress your images efficiently.</p>
-                            <Link to="/image-compression">Go to Image Compression</Link>
+                <div className='col-md-4 col-12 mb-5'>
+                    <div className="card h-100">
+                        <div className="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h3 className="card-title text-left">Image Compression</h3>
+                                <p className="card-text fs18 mb-2 text-left">Compress your images efficiently to reduce file size while maintaining quality.</p>
+                            </div>
+                            <Link className="btn btn-primary justify-content-between d-flex" to="/image-compression">
+                                Optimize Images
+                                <i className="material-icons ml-2">arrow_right</i>
+                            </Link>
                         </div>
                     </div>
                 </div>
-                <div className='col-md-6 mb-5'>
-                    <div className="card">
-                    <div className="card-body">
-                        <h3>Text to Speech</h3>
-                        <p>Convert text to speech easily.</p>
-                        <Link to="/text-to-speech">Go to Text to Speech</Link>
-                    </div>
-                    </div>
-                </div>
-                <div className='col-md-6 mb-5'>
-                    <div className="card">
-                        <h3>Password Generator</h3>
-                        <p>Generate strong passwords.</p>
-                        <Link to="/password-generator">Go to Password Generator</Link>
+                <div className='col-md-4 col-12 mb-5'>
+                    <div className="card h-100">
+                        <div className="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h3 className="card-title text-left">Text to Speech</h3>
+                                <p className="card-text fs18 mb-2 text-left">Convert text into spoken language easily with text-to-speech conversion capabilities.</p>
+                            </div>
+                            <Link className="btn btn-primary align-items-center justify-content-between d-flex" to="/text-to-speech">
+                                Text to Speech
+                                <i className="material-icons ml-2">arrow_right</i>
+                            </Link>
+                        </div>
                     </div>
                 </div>
-                <div className='col-md-6 mb-5'>
-                    <div className="card">
-                        <h3>Salary Calculator</h3>
-                        <p>Calculate your salary accurately.</p>
-                        <Link to="/salary-calculator">Go to Salary Calculator</Link>
+                <div className='col-md-4 col-12 mb-5'>
+                    <div className="card h-100">
+                        <div className="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h3 className="card-title text-left">Password Generator</h3>
+                                <p className="card-text fs18 mb-2 text-left">Generate strong, secure passwords with customizable options to enhance your online security.</p>
+                            </div>
+                            <Link className="btn btn-primary align-items-center justify-content-between d-flex" to="/password-generator">
+                                Password Generator
+                                <i className="material-icons ml-2">arrow_right</i>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+                <div className='col-md-4 col-12 mb-5'>
+                    <div className="card h-100">
+                        <div className="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h3 className="card-title text-left">Salary Calculator</h3>
+                                <p className="card-text fs18 mb-2 text-left">Calculate your salary accurately based on hourly, daily, weekly, monthly, or annual income figures.</p>
+                            </div>
+                            <Link className="btn btn-primary align-items-center justify-content-between d-flex" to="/salary-calculator">
+                                Go to Salary Calculator
+                                <i className="material-icons ml-2">arrow_right</i>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
