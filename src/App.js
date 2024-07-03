@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from './common/header/header';
@@ -30,19 +30,138 @@ const TitleUpdater = () => {
 
 // Main App component
 function App() {
+    const [category, setCategory] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [sortBy] = useState('');
+
+    // Data for the cards
+    const cardData = [
+        {
+            title: 'Image Compression',
+            description: 'Compress your images efficiently to reduce file size while maintaining quality.',
+            category: 'Developers',
+            path: '/image-compression',
+            component: <ImageCompression />
+        },
+        {
+            title: 'Text to Speech',
+            description: 'Convert text into spoken language easily with text-to-speech conversion capabilities.',
+            category: 'General',
+            path: '/text-to-speech',
+            component: <TextToSpeech />
+        },
+        {
+            title: 'Password Generator',
+            description: 'Generate strong, secure passwords with customizable options to enhance your online security.',
+            category: 'Security',
+            path: '/password-generator',
+            component: <PasswordGenerator />
+        },
+        {
+            title: 'Salary Calculator',
+            description: 'Calculate your salary accurately based on hourly, daily, weekly, monthly, or annual income figures.',
+            category: 'Business',
+            path: '/salary-calculator',
+            component: <SalaryCalculator />
+        },
+        {
+            title: 'Case Converter',
+            description: 'Calculate your salary accurately based on hourly, daily, weekly, monthly, or annual income figures.',
+            category: 'Business',
+            path: '/case-converter',
+            component: <SalaryCalculator />
+        }
+    ];
+
+    // Function to sort cardData based on selected sortBy option
+    const sortedCards = () => {
+        switch (sortBy) {
+            case 'oldest':
+                return [...cardData].sort((a, b) => new Date(a.date) - new Date(b.date));
+            case 'newest':
+                return [...cardData].sort((a, b) => new Date(b.date) - new Date(a.date));
+            case 'az':
+                return [...cardData].sort((a, b) => a.title.localeCompare(b.title));
+            case 'za':
+                return [...cardData].sort((a, b) => b.title.localeCompare(a.title));
+            default:
+                return cardData;
+        }
+    };
+
     return (
         <div className="App">
             <Router>
                 <Header />
-                <TitleUpdater /> {/* Component to update page title */}
-                <div className='container mt-3'>
-                    <Routes>
-                        <Route path="/image-compression" element={<ImageCompression />} />
-                        <Route path="/text-to-speech" element={<TextToSpeech />} />
-                        <Route path="/password-generator" element={<PasswordGenerator />} />
-                        <Route path="/salary-calculator" element={<SalaryCalculator />} />
-                        <Route path="/" element={<Home />} /> {/* Default route */}
-                    </Routes>
+                <TitleUpdater />
+                <div className="container mt-3">
+                    <div className="pt-5 pb-3">
+                        <h1>Link Fleek Free Tools</h1>
+                        <p>
+                            Use our free tools to convert & compress images, text to speech, password generator, salary calculator and much more.
+                            So, go and use them for yourself.
+                        </p>
+                    </div>
+                    <div className="row mb-4">
+                        <div className="col-md-3 col-xs-12">
+                            <div className="sticky-sidebar">
+                                <div className="card mb-3">
+                                    <div className="card-body">
+                                        <div className="input-group mb-3">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Search by title..."
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                            />
+                                        </div>
+                                        <h5 className="card-title text-left">Filter By Category</h5>
+                                        <ul className="list-group">
+                                            <li className={`list-group-item ${category === '' ? 'active' : ''}`}>
+                                                <button className="btn btn-link" onClick={() => setCategory('')}>
+                                                    All categories
+                                                </button>
+                                            </li>
+                                            {['Business', 'Developers', 'General', 'Guides', 'Marketing', 'Security'].map((cat) => (
+                                                <li key={cat} className={`list-group-item ${category === cat ? 'active' : ''}`}>
+                                                    <button className="btn btn-link" onClick={() => setCategory(cat)}>
+                                                        {cat}
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-9 col-xs-12">
+                            <Routes>
+                                {sortedCards()
+                                    .filter(
+                                        (card) =>
+                                            (category === '' || card.category === category) &&
+                                            (searchQuery === '' ||
+                                                card.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                                    )
+                                    .map((card) => (
+                                        <Route key={card.path} path={card.path} element={card.component} />
+                                    ))}
+                                <Route
+                                    path="/"
+                                    element={
+                                        <Home
+                                            cardData={cardData}
+                                            category={category}
+                                            searchQuery={searchQuery}
+                                            setCategory={setCategory}
+                                            setSearchQuery={setSearchQuery}
+                                        />
+                                    }
+                                />
+                            </Routes>
+                        </div>
+                    </div>
                 </div>
                 <Footer />
             </Router>
@@ -51,69 +170,35 @@ function App() {
 }
 
 // Home component rendering links to other routes with improved design
-const Home = () => {
+const Home = ({ cardData, category, searchQuery, setCategory, setSearchQuery }) => {
     return (
         <div className="container">
-            <div className='row'>
-                <div className='col-md-4 col-12 mb-5'>
-                    <div className="card h-100">
-                        <div className="card-body d-flex flex-column justify-content-between">
-                            <div>
-                                <h3 className="card-title text-left">Image Compression</h3>
-                                <p className="card-text fs18 mb-2 text-left">Compress your images efficiently to reduce file size while maintaining quality.</p>
+            <div className="row">
+                {cardData
+                    .filter(
+                        (card) =>
+                            (category === '' || card.category === category) &&
+                            (searchQuery === '' || card.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                    )
+                    .map((card) => (
+                        <div key={card.path} className="col-md-6 col-12 mb-5">
+                            <div className="card h-100">
+                                <div className="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h3 className="card-title text-left">{card.title}</h3>
+                                        <p className="card-text fs18 mb-2 text-left">{card.description}</p>
+                                    </div>
+                                    <Link className="btn btn-primary justify-content-between d-flex" to={card.path}>
+                                        Go to {card.title}
+                                        <i className="material-icons ml-2">arrow_right</i>
+                                    </Link>
+                                </div>
                             </div>
-                            <Link className="btn btn-primary justify-content-between d-flex" to="/image-compression">
-                                Optimize Images
-                                <i className="material-icons ml-2">arrow_right</i>
-                            </Link>
                         </div>
-                    </div>
-                </div>
-                <div className='col-md-4 col-12 mb-5'>
-                    <div className="card h-100">
-                        <div className="card-body d-flex flex-column justify-content-between">
-                            <div>
-                                <h3 className="card-title text-left">Text to Speech</h3>
-                                <p className="card-text fs18 mb-2 text-left">Convert text into spoken language easily with text-to-speech conversion capabilities.</p>
-                            </div>
-                            <Link className="btn btn-primary align-items-center justify-content-between d-flex" to="/text-to-speech">
-                                Text to Speech
-                                <i className="material-icons ml-2">arrow_right</i>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-                <div className='col-md-4 col-12 mb-5'>
-                    <div className="card h-100">
-                        <div className="card-body d-flex flex-column justify-content-between">
-                            <div>
-                                <h3 className="card-title text-left">Password Generator</h3>
-                                <p className="card-text fs18 mb-2 text-left">Generate strong, secure passwords with customizable options to enhance your online security.</p>
-                            </div>
-                            <Link className="btn btn-primary align-items-center justify-content-between d-flex" to="/password-generator">
-                                Password Generator
-                                <i className="material-icons ml-2">arrow_right</i>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-                <div className='col-md-4 col-12 mb-5'>
-                    <div className="card h-100">
-                        <div className="card-body d-flex flex-column justify-content-between">
-                            <div>
-                                <h3 className="card-title text-left">Salary Calculator</h3>
-                                <p className="card-text fs18 mb-2 text-left">Calculate your salary accurately based on hourly, daily, weekly, monthly, or annual income figures.</p>
-                            </div>
-                            <Link className="btn btn-primary align-items-center justify-content-between d-flex" to="/salary-calculator">
-                                Go to Salary Calculator
-                                <i className="material-icons ml-2">arrow_right</i>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
+                    ))}
             </div>
         </div>
     );
-}
+};
 
 export default App;
