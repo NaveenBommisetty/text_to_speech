@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from './common/header/header';
 import Footer from './common/footer/footer';
@@ -8,18 +8,40 @@ import TextToSpeech from './text-to-speech/TextToSpeech';
 import PasswordGenerator from './PasswordGenerator/PasswordGenerator';
 import SalaryCalculator from './SalaryCalculator/SalaryCalculator';
 
+// Define titles for each route
+const titles = {
+    '/': 'Home',
+    '/image-compression': 'Image Compression',
+    '/text-to-speech': 'Text to Speech',
+    '/password-generator': 'Password Generator',
+    '/salary-calculator': 'Salary Calculator'
+};
+
+// Component to update the document title based on current route
+const TitleUpdater = () => {
+    const location = useLocation();
+
+    useEffect(() => {
+        document.title = titles[location.pathname] || 'Default Title';
+    }, [location]);
+
+    return null;
+};
+
+// Main App component
 function App() {
     return (
         <div className="App">
             <Router>
                 <Header />
+                <TitleUpdater /> {/* Component to update page title */}
                 <div className='container mt-3'>
                     <Routes>
                         <Route path="/image-compression" element={<ImageCompression />} />
                         <Route path="/text-to-speech" element={<TextToSpeech />} />
                         <Route path="/password-generator" element={<PasswordGenerator />} />
                         <Route path="/salary-calculator" element={<SalaryCalculator />} />
-                        <Route path="/" element={<Home />} />
+                        <Route path="/" element={<Home />} /> {/* Default route */}
                     </Routes>
                 </div>
                 <Footer />
@@ -28,17 +50,18 @@ function App() {
     );
 }
 
+// Home component rendering links to other routes
 const Home = () => {
     return (
         <div className="container">
             <div className='row'>
                 <div className='col-md-6 mb-5'>
                     <div className="card">
-                    <div className="card-body">
-                        <h3 className="">Image Compression</h3>
-                        <p className="">Compress your images efficiently.</p>
-                        <Link to="/image-compression">Go to Image Compression</Link>
-                    </div>
+                        <div className="card-body">
+                            <h3 className="">Image Compression</h3>
+                            <p className="">Compress your images efficiently.</p>
+                            <Link to="/image-compression">Go to Image Compression</Link>
+                        </div>
                     </div>
                 </div>
                 <div className='col-md-6 mb-5'>
@@ -64,8 +87,8 @@ const Home = () => {
                         <Link to="/salary-calculator">Go to Salary Calculator</Link>
                     </div>
                 </div>
+            </div>
         </div>
-    </div>
     );
 }
 
