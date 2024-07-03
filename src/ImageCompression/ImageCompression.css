@@ -170,18 +170,21 @@ input:checked + .slider:before {
         max-width: 100%;
     }
 }
+
 .btn-primary {
     background: #336699 !important;
     border: 1px solid #336699 !important;
     color: white !important;
 }
-.convert-my-images{
+
+.convert-my-images {
     background: #f4faeb !important;
     border-radius: 5px;
     padding-top: 5px;
     padding-bottom: 25px;
     margin-top: 10px;
 }
+
 .format-option.select-all.checked {
     position: relative;
 }
@@ -191,5 +194,37 @@ input:checked + .slider:before {
     left: 5px;
     top: 50%;
     transform: translateY(-50%);
-    color: green;
+    color: #98c222;
+}
+.txt-green{
+    color: #98c222 !important;
+    font-weight: 500;
+}
+.img-txt {
+    margin-left: 10px;
+    text-align: left;
+}
+.image-format-btn{
+    background: #624bd8 !important;
+    color: #fff !important;
+    display: inline-block;
+    font-weight: 400;
+    text-align: Left;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.1rem 0.5rem !important;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+}
+.left-txt {
+    text-align: left;
+}
+.progress.mt-3 {
+    width: 100%;
+    height: 45px !important;
+    overflow: visible;
 }

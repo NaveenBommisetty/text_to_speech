@@ -35,8 +35,8 @@ const Home = () => {
                 <div className='col-md-6 mb-5'>
                     <div className="card">
                     <div className="card-body">
-                        <h3>Image Compression</h3>
-                        <p>Compress your images efficiently.</p>
+                        <h3 className="">Image Compression</h3>
+                        <p className="">Compress your images efficiently.</p>
                         <Link to="/image-compression">Go to Image Compression</Link>
                     </div>
                     </div>
