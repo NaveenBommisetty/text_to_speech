@@ -8,6 +8,7 @@ import TextToSpeech from './text-to-speech/TextToSpeech';
 import PasswordGenerator from './PasswordGenerator/PasswordGenerator';
 import SalaryCalculator from './SalaryCalculator/SalaryCalculator';
 import CaseConverter from './CaseConvertter/CaseConverter';
+import InvoiceGenerator from './InvoiceGenerator/InvoiceGenerator';
 
 // Define titles for each route
 const titles = {
@@ -16,7 +17,8 @@ const titles = {
     '/text-to-speech': 'Text to Speech',
     '/password-generator': 'Password Generator',
     '/salary-calculator': 'Salary Calculator',
-    '/case-converter': 'Case Converter'
+    '/case-converter': 'Case Converter',
+    '/invoice-generator': 'Invoice Generator'
 };
 
 // Component to update the document title based on current route
@@ -44,10 +46,10 @@ const MainContent = ({ cardData, category, setCategory, searchQuery, setSearchQu
             </div>
             <div className="row mb-4">
                 {location.pathname === '/' && (
-                    <div className="col-md-3 col-xs-12">
+                    <div className="col-lg-3 col-md-12 col-xs-12">
                         <div className="sticky-sidebar">
                             <div className="card mb-3">
-                                <div className="card-body">
+                                <div className="">
                                     <div className="input-group mb-3">
                                         <input
                                             type="text"
@@ -77,7 +79,7 @@ const MainContent = ({ cardData, category, setCategory, searchQuery, setSearchQu
                         </div>
                     </div>
                 )}
-                <div className={location.pathname === '/' ? 'col-md-9 col-xs-12' : 'col-12'}>
+                <div className={location.pathname === '/' ? 'col-lg-9 col-md-12' : 'col-12'}>
                     <Routes>
                         {sortedCards()
                             .filter(
@@ -150,6 +152,13 @@ function App() {
             category: 'General',
             path: '/case-converter',
             component: <CaseConverter />
+        },
+        {
+            title: 'Invoice Generator',
+            description: 'Fill in your business details in the invoice template below to create a professional invoice for your customers.',
+            category: 'Business',
+            path: '/invoice-generator',
+            component: <InvoiceGenerator />
         }
     ];
 
