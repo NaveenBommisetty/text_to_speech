@@ -7,6 +7,7 @@ import ImageCompression from './ImageCompression/ImageCompression';
 import TextToSpeech from './text-to-speech/TextToSpeech';
 import PasswordGenerator from './PasswordGenerator/PasswordGenerator';
 import SalaryCalculator from './SalaryCalculator/SalaryCalculator';
+import CaseConverter from './CaseConvertter/CaseConverter';
 
 // Define titles for each route
 const titles = {
@@ -14,7 +15,8 @@ const titles = {
     '/image-compression': 'Image Compression',
     '/text-to-speech': 'Text to Speech',
     '/password-generator': 'Password Generator',
-    '/salary-calculator': 'Salary Calculator'
+    '/salary-calculator': 'Salary Calculator',
+    '/case-converter': 'Case Converter'
 };
 
 // Component to update the document title based on current route
@@ -26,6 +28,84 @@ const TitleUpdater = () => {
     }, [location]);
 
     return null;
+};
+
+const MainContent = ({ cardData, category, setCategory, searchQuery, setSearchQuery, sortedCards }) => {
+    const location = useLocation();
+
+    return (
+        <div className="container mt-3">
+            <div className="pt-5 pb-3">
+                <h1>Link Fleek Free Tools</h1>
+                <p>
+                    Use our free tools to convert & compress images, text to speech, password generator, salary calculator and much more.
+                    So, go and use them for yourself.
+                </p>
+            </div>
+            <div className="row mb-4">
+                {location.pathname === '/' && (
+                    <div className="col-md-3 col-xs-12">
+                        <div className="sticky-sidebar">
+                            <div className="card mb-3">
+                                <div className="card-body">
+                                    <div className="input-group mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Search by title..."
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                        />
+                                    </div>
+                                    <h5 className="card-title text-left">Filter By Category</h5>
+                                    <ul className="list-group">
+                                        <li className={`list-group-item ${category === '' ? 'active' : ''}`}>
+                                            <button className="btn btn-link" onClick={() => setCategory('')}>
+                                                All categories
+                                            </button>
+                                        </li>
+                                        {['Business', 'Developers', 'General', 'Guides', 'Marketing', 'Security'].map((cat) => (
+                                            <li key={cat} className={`list-group-item ${category === cat ? 'active' : ''}`}>
+                                                <button className="btn btn-link" onClick={() => setCategory(cat)}>
+                                                    {cat}
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                <div className={location.pathname === '/' ? 'col-md-9 col-xs-12' : 'col-12'}>
+                    <Routes>
+                        {sortedCards()
+                            .filter(
+                                (card) =>
+                                    (category === '' || card.category === category) &&
+                                    (searchQuery === '' ||
+                                        card.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                            )
+                            .map((card) => (
+                                <Route key={card.path} path={card.path} element={card.component} />
+                            ))}
+                        <Route
+                            path="/"
+                            element={
+                                <Home
+                                    cardData={cardData}
+                                    category={category}
+                                    searchQuery={searchQuery}
+                                    setCategory={setCategory}
+                                    setSearchQuery={setSearchQuery}
+                                />
+                            }
+                        />
+                    </Routes>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 // Main App component
@@ -66,10 +146,10 @@ function App() {
         },
         {
             title: 'Case Converter',
-            description: 'Calculate your salary accurately based on hourly, daily, weekly, monthly, or annual income figures.',
-            category: 'Business',
+            description: 'Convert case or capitalize letters in your documents and text messages using the case converter.',
+            category: 'General',
             path: '/case-converter',
-            component: <SalaryCalculator />
+            component: <CaseConverter />
         }
     ];
 
@@ -94,75 +174,14 @@ function App() {
             <Router>
                 <Header />
                 <TitleUpdater />
-                <div className="container mt-3">
-                    <div className="pt-5 pb-3">
-                        <h1>Link Fleek Free Tools</h1>
-                        <p>
-                            Use our free tools to convert & compress images, text to speech, password generator, salary calculator and much more.
-                            So, go and use them for yourself.
-                        </p>
-                    </div>
-                    <div className="row mb-4">
-                        <div className="col-md-3 col-xs-12">
-                            <div className="sticky-sidebar">
-                                <div className="card mb-3">
-                                    <div className="card-body">
-                                        <div className="input-group mb-3">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="Search by title..."
-                                                value={searchQuery}
-                                                onChange={(e) => setSearchQuery(e.target.value)}
-                                            />
-                                        </div>
-                                        <h5 className="card-title text-left">Filter By Category</h5>
-                                        <ul className="list-group">
-                                            <li className={`list-group-item ${category === '' ? 'active' : ''}`}>
-                                                <button className="btn btn-link" onClick={() => setCategory('')}>
-                                                    All categories
-                                                </button>
-                                            </li>
-                                            {['Business', 'Developers', 'General', 'Guides', 'Marketing', 'Security'].map((cat) => (
-                                                <li key={cat} className={`list-group-item ${category === cat ? 'active' : ''}`}>
-                                                    <button className="btn btn-link" onClick={() => setCategory(cat)}>
-                                                        {cat}
-                                                    </button>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-9 col-xs-12">
-                            <Routes>
-                                {sortedCards()
-                                    .filter(
-                                        (card) =>
-                                            (category === '' || card.category === category) &&
-                                            (searchQuery === '' ||
-                                                card.title.toLowerCase().includes(searchQuery.toLowerCase()))
-                                    )
-                                    .map((card) => (
-                                        <Route key={card.path} path={card.path} element={card.component} />
-                                    ))}
-                                <Route
-                                    path="/"
-                                    element={
-                                        <Home
-                                            cardData={cardData}
-                                            category={category}
-                                            searchQuery={searchQuery}
-                                            setCategory={setCategory}
-                                            setSearchQuery={setSearchQuery}
-                                        />
-                                    }
-                                />
-                            </Routes>
-                        </div>
-                    </div>
-                </div>
+                <MainContent
+                    cardData={cardData}
+                    category={category}
+                    setCategory={setCategory}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    sortedCards={sortedCards}
+                />
                 <Footer />
             </Router>
         </div>

@@ -229,7 +229,7 @@ const ImageCompression = () => {
     };
 
     return (
-        <div className="container mt-5">
+        <div className="container">
             <ToastContainer />
             <div className="card">
                 <div className="card-body">
