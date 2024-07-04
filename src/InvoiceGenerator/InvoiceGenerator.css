@@ -1,0 +1,10 @@
+.invoice-number {
+    color: #202223 !important;
+    font-size: 40px !important;
+    font-weight: 700 !important;
+    text-align: left;
+}
+.uploaded-logo{
+    height: 80px !important;
+    width: auto !important;
+} 
